@@ -1,47 +1,37 @@
 #include <iostream>
-#include "enrutador.h"
+#include "red.h"
 
 using namespace std;
 
 int main() {
-    cout << "=== INICIANDO PRUEBA FASE 1: CLASE ENRUTADOR ===" << endl << endl;
+    cout << "=== INICIANDO PRUEBA FASE 2: CLASE RED ===" << endl << endl;
 
-    // 1. Crear un enrutador principal y un par de "vecinos" virtuales
-    Enrutador nodoA("A");
+    Red miRed;
 
-    cout << "1. Nodo creado con ID: " << nodoA.getId() << endl;
+    // 1. Agregar nodos
+    miRed.agregarEnrutador("A");
+    miRed.agregarEnrutador("B");
+    miRed.agregarEnrutador("C");
 
-    // 2. Agregar vecinos al nodo A
-    // Supongamos que A se conecta a B con costo 5 y a C con costo 10
-    nodoA.agregarVecino("B", 5);
-    nodoA.agregarVecino("C", 10);
+    // 2. Conectar nodos (Triángulo)
+    miRed.conectar("A", "B", 5);
+    miRed.conectar("B", "C", 10);
+    miRed.conectar("A", "C", 15);
 
-    // 3. Imprimir la tabla inicial (debería mostrar a sí mismo, a B y a C)
-    cout << "\n2. Mostrando tabla inicial de A (solo conexiones directas):" << endl;
-    nodoA.imprimirTabla();
+    // 3. Imprimir estado inicial
+    miRed.imprimirRed();
 
-    // 4. Simular que el algoritmo de la "Red" (Fase 3) encontró un camino más corto a C
-    // Supongamos que descubrimos que por otro lado llegar a C cuesta solo 7
-    cout << "3. Actualizando el costo hacia C en la tabla de enrutamiento..." << endl;
-    nodoA.actualizarTabla("C", 7);
+    // 4. Desconectar un cable específico
+    cout << "--- Desconectando cable entre B y C ---" << endl;
+    miRed.desconectar("B", "C");
+    miRed.imprimirRed();
 
-    // Y también descubrimos un nuevo destino D al que no estamos conectados directamente
-    nodoA.actualizarTabla("D", 15);
+    // 5. Eliminar un nodo por completo (A)
+    cout << "--- Eliminando el nodo A de la red ---" << endl;
+    // Al eliminar A, el nodo B y C deben perder su conexión con A automáticamente.
+    miRed.eliminarEnrutador("A");
+    miRed.imprimirRed();
 
-    cout << "\nMostrando tabla actualizada de A:" << endl;
-    nodoA.imprimirTabla();
-
-    // 5. Probar la eliminación de un vecino (supongamos que el cable hacia B se rompe)
-    cout << "4. Eliminando el vecino B (falla de enlace)..." << endl;
-    nodoA.eliminarVecino("B");
-
-    cout << "Vecinos actuales de A:" << endl;
-    map<string, int> vecinosA = nodoA.getVecinos();
-    for (const auto& par : vecinosA) {
-        cout << "  -> Vecino directo: " << par.first << " | Costo enlace: " << par.second << endl;
-    }
-
-    cout << "\n=== PRUEBA FINALIZADA CON EXITO ===" << endl;
-
+    cout << "=== PRUEBA FINALIZADA CON EXITO ===" << endl;
     return 0;
 }
