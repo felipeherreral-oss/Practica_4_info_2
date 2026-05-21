@@ -27,6 +27,7 @@ public:
     // Métodos para la tabla de costos (Dijkstra la actualizará luego)
     void actualizarTabla(string destino, int costo);
     void imprimirTabla() const;
+    void reiniciarTabla();
 
     // Getters
     string getId() const;

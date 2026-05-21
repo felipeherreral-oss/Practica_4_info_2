@@ -35,3 +35,8 @@ void Enrutador::imprimirTabla() const {
 string Enrutador::getId() const {
     return id;
 }
+
+void Enrutador::reiniciarTabla() {
+    tablaCostos.clear();
+    tablaCostos[id] = 0; // El costo a sí mismo siempre es 0
+}
